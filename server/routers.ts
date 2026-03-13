@@ -6,6 +6,9 @@ import { z } from "zod";
 import {
   getUserByEmail,
   getUserById,
+  getAllUsers,
+  updateUser,
+  deleteUser,
   getPublicProducts,
   getProductsByUserId,
   getProductById,
@@ -598,8 +601,82 @@ export const appRouter = router({
         })
       );
       return enrichedSales;
+     }),
+  }),
+
+  /**
+   * Administración (solo para admins)
+   */
+  admin: router({
+    /**
+     * Obtener todos los usuarios
+     */
+    getAllUsers: protectedProcedure.query(async ({ ctx }) => {
+      // Verificar que el usuario es admin
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Solo administradores pueden ver los usuarios',
+        });
+      }
+      return await getAllUsers();
     }),
+
+    /**
+     * Actualizar usuario
+     */
+    updateUser: protectedProcedure
+      .input(
+        z.object({
+          userId: z.number(),
+          name: z.string().optional(),
+          email: z.string().email().optional(),
+          balance: z.string().optional(),
+          role: z.enum(['user', 'admin']).optional(),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        // Verificar que el usuario es admin
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Solo administradores pueden actualizar usuarios',
+          });
+        }
+
+        const updates: Record<string, any> = {};
+        if (input.name !== undefined) updates.name = input.name;
+        if (input.email !== undefined) updates.email = input.email;
+        if (input.balance !== undefined) updates.balance = input.balance;
+        if (input.role !== undefined) updates.role = input.role;
+
+        return await updateUser(input.userId, updates);
+      }),
+
+    /**
+     * Eliminar usuario
+     */
+    deleteUser: protectedProcedure
+      .input(z.object({ userId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        // Verificar que el usuario es admin
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Solo administradores pueden eliminar usuarios',
+          });
+        }
+
+        // No permitir que se elimine a sí mismo
+        if (input.userId === ctx.user.id) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'No puedes eliminar tu propia cuenta',
+          });
+        }
+
+        return await deleteUser(input.userId);
+      }),
   }),
 });
-
 export type AppRouter = typeof appRouter;

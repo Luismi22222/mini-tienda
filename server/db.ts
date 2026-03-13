@@ -114,6 +114,49 @@ export async function getUserById(userId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get users: database not available");
+    return [];
+  }
+
+  const result = await db.select().from(users).orderBy(users.createdAt);
+  return result;
+}
+
+export async function updateUser(userId: number, updates: Partial<InsertUser>) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update user: database not available");
+    return undefined;
+  }
+
+  try {
+    await db.update(users).set(updates).where(eq(users.id, userId));
+    return await getUserById(userId);
+  } catch (error) {
+    console.error("[Database] Failed to update user:", error);
+    throw error;
+  }
+}
+
+export async function deleteUser(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete user: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(users).where(eq(users.id, userId));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete user:", error);
+    throw error;
+  }
+}
+
 /**
  * Productos
  */

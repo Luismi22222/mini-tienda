@@ -21,6 +21,22 @@ export default function Login() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleQuickTest = async () => {
+    setIsLoading(true);
+    try {
+      await loginMutation.mutateAsync({
+        email: "test@example.com",
+        password: "TestPassword123!",
+      });
+      toast.success("Sesión de prueba iniciada");
+      setLocation("/catalog");
+    } catch (error: any) {
+      toast.error(error.message || "Error en login de prueba");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -83,6 +99,23 @@ export default function Login() {
                 Regístrate aquí
               </a>
             </p>
+
+            <div className="border-t pt-4 mt-4">
+              <p className="text-xs text-center text-gray-500 mb-2">Prueba Rápida</p>
+              <Button
+                type="button"
+                onClick={handleQuickTest}
+                disabled={isLoading}
+                variant="outline"
+                className="w-full"
+              >
+                Iniciar Sesión de Prueba
+              </Button>
+              <p className="text-xs text-center text-gray-400 mt-2">
+                Email: test@example.com<br />
+                Contraseña: TestPassword123!
+              </p>
+            </div>
           </form>
         </CardContent>
       </Card>
