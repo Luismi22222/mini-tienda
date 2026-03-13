@@ -148,8 +148,9 @@ export const appRouter = router({
         }
 
         // Crear sesión JWT usando el SDK (como OAuth)
+        // Para usuarios locales, usar el openId o el email como identificador
         const sessionToken = await sdk.createSessionToken(
-          user.email || user.id.toString(),
+          user.openId || user.email || user.id.toString(),
           { name: user.name || "" }
         );
 

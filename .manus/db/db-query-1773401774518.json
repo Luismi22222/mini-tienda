@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO users (email, name, passwordHash, balance, role, loginMethod, createdAt, updatedAt, lastSignedIn) \nVALUES ('test@example.com', 'Usuario Prueba', '0fb35f045e90af82698fc0b7da67ce51:8a515ca6124c52c21b292231cc1fc26685b2a2f413e3db4b0b2aba441ccb64c3939565a52f2471d19b416c1ef7abad399d0aeeb5e07829c6775bae8fb3054870', '5000', 'user', 'local', NOW(), NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute INSERT INTO users (email, name, passwordHash, balance, role, loginMethod, createdAt, updatedAt, lastSignedIn) \nVALUES ('test@example.com', 'Usuario Prueba', '0fb35f045e90af82698fc0b7da67ce51:8a515ca6124c52c21b292231cc1fc26685b2a2f413e3db4b0b2aba441ccb64c3939565a52f2471d19b416c1ef7abad399d0aeeb5e07829c6775bae8fb3054870', '5000', 'user', 'local', NOW(), NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 387
+}

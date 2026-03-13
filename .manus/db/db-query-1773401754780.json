@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, email, name, passwordHash FROM users WHERE email = 'test@example.com' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute SELECT id, email, name, passwordHash FROM users WHERE email = 'test@example.com' LIMIT 1;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 355
+}
