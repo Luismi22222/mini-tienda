@@ -1,4 +1,4 @@
-import { COOKIE_NAME } from "@shared/const";
+import { COOKIE_NAME } from "../shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
@@ -38,6 +38,7 @@ import {
   isValidQuantity,
 } from "./auth";
 import { TRPCError } from "@trpc/server";
+import { sdk } from "./_core/sdk";
 
 export const appRouter = router({
   system: systemRouter,
@@ -47,7 +48,7 @@ export const appRouter = router({
     
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+      ctx.res.clearCookie(COOKIE_NAME, cookieOptions);
       return {
         success: true,
       } as const;
@@ -143,11 +144,15 @@ export const appRouter = router({
           });
         }
 
-        // Crear sesión (similar a OAuth)
+        // Crear sesión JWT usando el SDK (como OAuth)
+        const sessionToken = await sdk.createSessionToken(
+          user.email || user.id.toString(),
+          { name: user.name || "" }
+        );
+
+        // Establecer cookie de sesión
         const cookieOptions = getSessionCookieOptions(ctx.req);
-        ctx.res.setHeader("Set-Cookie", `${COOKIE_NAME}=${user.id}; ${Object.entries(cookieOptions)
-          .map(([key, value]) => `${key}=${value}`)
-          .join("; ")}`);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, cookieOptions);
 
         return {
           success: true,

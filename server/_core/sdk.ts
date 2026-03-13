@@ -270,6 +270,11 @@ class SDKServer {
     const signedInAt = new Date();
     let user = await db.getUserByOpenId(sessionUserId);
 
+    // Si no se encuentra por openId, intentar por email (usuarios locales)
+    if (!user) {
+      user = await db.getUserByEmail(sessionUserId);
+    }
+
     // If user not in DB, sync from OAuth server automatically
     if (!user) {
       try {
@@ -293,7 +298,7 @@ class SDKServer {
     }
 
     await db.upsertUser({
-      openId: user.openId,
+      openId: user.openId || user.email || user.id.toString(),
       lastSignedIn: signedInAt,
     });
 
