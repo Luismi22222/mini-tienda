@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { and, eq, sum } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, products, orders, orderItems, cartItems } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -19,8 +19,8 @@ export async function getDb() {
 }
 
 export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) {
-    throw new Error("User openId is required for upsert");
+  if (!user.openId && !user.email) {
+    throw new Error("User openId or email is required for upsert");
   }
 
   const db = await getDb();
@@ -32,10 +32,11 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   try {
     const values: InsertUser = {
       openId: user.openId,
+      email: user.email,
     };
     const updateSet: Record<string, unknown> = {};
 
-    const textFields = ["name", "email", "loginMethod"] as const;
+    const textFields = ["name", "email", "loginMethod", "passwordHash"] as const;
     type TextField = (typeof textFields)[number];
 
     const assignNullable = (field: TextField) => {
@@ -89,4 +90,177 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getUserById(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get user: database not available");
+    return undefined;
+  }
+
+  const result = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+
+  return result.length > 0 ? result[0] : undefined;
+}
+
+/**
+ * Productos
+ */
+export async function getPublicProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(products).orderBy(products.createdAt);
+}
+
+export async function getProductsByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(products).where(eq(products.userId, userId));
+}
+
+export async function getProductById(productId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(products).where(eq(products.id, productId)).limit(1);
+  return result[0];
+}
+
+export async function createProduct(data: typeof products.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(products).values(data);
+  return result;
+}
+
+export async function updateProduct(productId: number, data: Partial<typeof products.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.update(products).set(data).where(eq(products.id, productId));
+}
+
+export async function deleteProduct(productId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.delete(products).where(eq(products.id, productId));
+}
+
+/**
+ * Carrito
+ */
+export async function getCartItems(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(cartItems).where(eq(cartItems.userId, userId));
+}
+
+export async function addToCart(userId: number, productId: number, quantity: number = 1) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Verificar si el producto ya está en el carrito
+  const existing = await db.select().from(cartItems)
+    .where(and(eq(cartItems.userId, userId), eq(cartItems.productId, productId)))
+    .limit(1);
+  
+  if (existing.length > 0) {
+    // Actualizar cantidad
+    return db.update(cartItems)
+      .set({ quantity: existing[0].quantity + quantity })
+      .where(and(eq(cartItems.userId, userId), eq(cartItems.productId, productId)));
+  } else {
+    // Insertar nuevo
+    return db.insert(cartItems).values({ userId, productId, quantity });
+  }
+}
+
+export async function removeFromCart(cartItemId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.delete(cartItems).where(eq(cartItems.id, cartItemId));
+}
+
+export async function updateCartItemQuantity(cartItemId: number, quantity: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.update(cartItems).set({ quantity }).where(eq(cartItems.id, cartItemId));
+}
+
+export async function clearCart(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.delete(cartItems).where(eq(cartItems.userId, userId));
+}
+
+/**
+ * Pedidos
+ */
+export async function createOrder(buyerId: number, totalPrice: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const result = await db.insert(orders).values({ buyerId, totalPrice, status: "completed" });
+  return result;
+}
+
+export async function createOrderItem(data: typeof orderItems.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.insert(orderItems).values(data);
+}
+
+export async function getOrdersByBuyerId(buyerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(orders).where(eq(orders.buyerId, buyerId)).orderBy(orders.createdAt);
+}
+
+export async function getOrderItemsByOrderId(orderId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(orderItems).where(eq(orderItems.orderId, orderId));
+}
+
+export async function getOrdersBySellerIdForSales(sellerId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(orderItems).where(eq(orderItems.sellerId, sellerId)).orderBy(orderItems.createdAt);
+}
+
+/**
+ * Gestión de saldo
+ */
+export async function getUserBalance(userId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select({ balance: users.balance }).from(users).where(eq(users.id, userId)).limit(1);
+  return result[0]?.balance;
+}
+
+export async function updateUserBalance(userId: number, newBalance: string | number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.update(users).set({ balance: newBalance.toString() }).where(eq(users.id, userId));
+}
+
+export async function addUserBalance(userId: number, amount: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const currentBalance = await getUserBalance(userId);
+  if (currentBalance === undefined) throw new Error("User not found");
+  const newBalance = parseFloat(currentBalance.toString()) + amount;
+  return updateUserBalance(userId, newBalance);
+}
+
+export async function subtractUserBalance(userId: number, amount: number) {
+  return addUserBalance(userId, -amount);
+}
