@@ -11,12 +11,14 @@ import { formatEUR } from "@/lib/currency";
 
 export default function GoogleSheetsUsers() {
   const [, setLocation] = useLocation();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [sheetUrl, setSheetUrl] = useState("");
   const [isCreating, setIsCreating] = useState(false);
 
-  // Obtener usuarios
-  const { data: users, isLoading, refetch } = trpc.admin.getAllUsers.useQuery();
+  // Obtener usuarios - solo si está autenticado
+  const { data: users, isLoading, refetch } = trpc.admin.getAllUsers.useQuery(undefined, {
+    enabled: isAuthenticated && user?.role === 'admin',
+  });
 
   // Crear Google Sheet con usuarios
   const createSheetMutation = trpc.admin.createGoogleSheet.useMutation({
@@ -72,6 +74,36 @@ export default function GoogleSheetsUsers() {
 
     toast.success("CSV descargado exitosamente");
   };
+
+  // Redirigir si no está autenticado
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <Card className="p-8 text-center bg-slate-800 border-slate-700">
+          <h1 className="text-2xl font-bold text-white mb-4">Acceso Denegado</h1>
+          <p className="text-slate-400 mb-6">Debes iniciar sesión para acceder a esta página</p>
+          <Button onClick={() => setLocation("/login")} className="bg-orange-500 hover:bg-orange-600">
+            Iniciar Sesión
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
+  // Redirigir si no es admin
+  if (user?.role !== 'admin') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <Card className="p-8 text-center bg-slate-800 border-slate-700">
+          <h1 className="text-2xl font-bold text-white mb-4">Acceso Restringido</h1>
+          <p className="text-slate-400 mb-6">Solo administradores pueden acceder a esta página</p>
+          <Button onClick={() => setLocation("/")} className="bg-orange-500 hover:bg-orange-600">
+            Volver al Inicio
+          </Button>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">

@@ -1,0 +1,190 @@
+{
+  "query": "SELECT id, email, name, balance, role, loginMethod, createdAt FROM users LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute SELECT id, email, name, balance, role, loginMethod, createdAt FROM users LIMIT 20;",
+  "rows": [
+    {
+      "id": "60004",
+      "email": "luismiguelrecio04@gmail.com",
+      "name": "luis",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:01:16"
+    },
+    {
+      "id": "60005",
+      "email": "paulaherguedasq@gmail.com",
+      "name": "Paula Herguedas Quevedo",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:01:19"
+    },
+    {
+      "id": "60031",
+      "email": "test-1773400598408@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:16:38"
+    },
+    {
+      "id": "60032",
+      "email": "duplicate-test-1773400599102@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:16:39"
+    },
+    {
+      "id": "60036",
+      "email": "test-1773400631930@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:12"
+    },
+    {
+      "id": "60037",
+      "email": "duplicate-test-1773400632614@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:12"
+    },
+    {
+      "id": "60042",
+      "email": "hola@gmail.com",
+      "name": "Paula Herguedas Quevedo",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:30"
+    },
+    {
+      "id": "60044",
+      "email": "test-1773400652950-1@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:33"
+    },
+    {
+      "id": "60045",
+      "email": "test-1773400653424-2@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:33"
+    },
+    {
+      "id": "60046",
+      "email": "test-1773400653690-3@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:33"
+    },
+    {
+      "id": "60047",
+      "email": "test-1773400654003-4@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:34"
+    },
+    {
+      "id": "60048",
+      "email": "duplicate-test-1773400654267@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:34"
+    },
+    {
+      "id": "60051",
+      "email": "test-1773400673582-1@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:54"
+    },
+    {
+      "id": "60052",
+      "email": "test-1773400674069-2@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:54"
+    },
+    {
+      "id": "60053",
+      "email": "test-1773400674346-3@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:54"
+    },
+    {
+      "id": "60054",
+      "email": "test-1773400674670-4@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:54"
+    },
+    {
+      "id": "60055",
+      "email": "duplicate-test-1773400674941@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:17:55"
+    },
+    {
+      "id": "60058",
+      "email": "test-1773400701021-1@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:18:21"
+    },
+    {
+      "id": "60059",
+      "email": "test-1773400701506-2@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:18:21"
+    },
+    {
+      "id": "60060",
+      "email": "test-1773400701784-3@example.com",
+      "name": "Test User",
+      "balance": "1000.00",
+      "role": "user",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:18:21"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\tbalance\trole\tloginMethod\tcreatedAt\n60004\tluismiguelrecio04@gmail.com\tluis\t1000.00\tuser\tlocal\t2026-03-13 11:01:16\n60005\tpaulaherguedasq@gmail.com\tPaula Herguedas Quevedo\t1000.00\tuser\tlocal\t2026-03-13 11:01:19\n60031\ttest-1773400598408@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:16:38\n60032\tduplicate-test-1773400599102@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:16:39\n60036\ttest-1773400631930@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:12\n60037\tduplicate-test-1773400632614@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:12\n60042\thola@gmail.com\tPaula Herguedas Quevedo\t1000.00\tuser\tlocal\t2026-03-13 11:17:30\n60044\ttest-1773400652950-1@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:33\n60045\ttest-1773400653424-2@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:33\n60046\ttest-1773400653690-3@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:33\n60047\ttest-1773400654003-4@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:34\n60048\tduplicate-test-1773400654267@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:34\n60051\ttest-1773400673582-1@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:54\n60052\ttest-1773400674069-2@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:54\n60053\ttest-1773400674346-3@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:54\n60054\ttest-1773400674670-4@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:54\n60055\tduplicate-test-1773400674941@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:17:55\n60058\ttest-1773400701021-1@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:18:21\n60059\ttest-1773400701506-2@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:18:21\n60060\ttest-1773400701784-3@example.com\tTest User\t1000.00\tuser\tlocal\t2026-03-13 11:18:21\n",
+  "stderr": "",
+  "execution_time_ms": 363
+}
