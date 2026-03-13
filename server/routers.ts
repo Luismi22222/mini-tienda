@@ -427,6 +427,46 @@ export const appRouter = router({
    */
   orders: router({
     /**
+     * Procesar pago simulado (sin Stripe)
+     */
+    processPayment: protectedProcedure
+      .input(
+        z.object({
+          cardNumber: z.string(),
+          cardHolder: z.string().min(1),
+          expiryDate: z.string(),
+          cvv: z.string(),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        // Validar que el carrito no esté vacío
+        const cartItems = await getCartItems(ctx.user.id);
+        if (cartItems.length === 0) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "El carrito está vacío",
+          });
+        }
+
+        // Simular rechazo de tarjeta específica
+        if (input.cardNumber === "4000000000000002") {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Tarjeta rechazada. Intenta con otra tarjeta.",
+          });
+        }
+
+        // Simular procesamiento de pago (1 segundo)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        return {
+          success: true,
+          transactionId: `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          message: "Pago procesado exitosamente",
+        };
+      }),
+
+    /**
      * Finalizar compra
      */
     checkout: protectedProcedure.mutation(async ({ ctx }) => {
