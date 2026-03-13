@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE users SET passwordHash = '1314b49a5d9f79934c266a5639be5785:46b74ffcd610b709d6182c3c17d49cd91285c3df6f78881e4558e96ee2aae34d61b7cd1157c7560ec1fafb6a96101e03ba98c08f65e40e6a784a7241e51d8189' WHERE email = 'admin@tienda.com';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute UPDATE users SET passwordHash = '1314b49a5d9f79934c266a5639be5785:46b74ffcd610b709d6182c3c17d49cd91285c3df6f78881e4558e96ee2aae34d61b7cd1157c7560ec1fafb6a96101e03ba98c08f65e40e6a784a7241e51d8189' WHERE email = 'admin@tienda.com';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 385
+}

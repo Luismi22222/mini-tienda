@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, email, name, role, balance, loginMethod, createdAt FROM users WHERE email = 'test@example.com' OR role = 'admin' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute SELECT id, email, name, role, balance, loginMethod, createdAt FROM users WHERE email = 'test@example.com' OR role = 'admin' LIMIT 10;",
+  "rows": [
+    {
+      "id": "60091",
+      "email": "djluismi22@gmail.com",
+      "name": "Luiismi DJ",
+      "role": "admin",
+      "balance": "1000.00",
+      "loginMethod": "google",
+      "createdAt": "2026-03-13 11:32:39"
+    },
+    {
+      "id": "60096",
+      "email": "test@example.com",
+      "name": "Usuario Prueba",
+      "role": "user",
+      "balance": "5000.00",
+      "loginMethod": "local",
+      "createdAt": "2026-03-13 11:36:14"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\temail\tname\trole\tbalance\tloginMethod\tcreatedAt\n60091\tdjluismi22@gmail.com\tLuiismi DJ\tadmin\t1000.00\tgoogle\t2026-03-13 11:32:39\n60096\ttest@example.com\tUsuario Prueba\tuser\t5000.00\tlocal\t2026-03-13 11:36:14\n",
+  "stderr": "",
+  "execution_time_ms": 377
+}

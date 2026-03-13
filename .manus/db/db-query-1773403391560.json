@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO users (openId, email, name, passwordHash, role, loginMethod, balance, createdAt, updatedAt, lastSignedIn) \nVALUES ('admin-user-001', 'admin@tienda.com', 'Administrador', '51381a4224551bcaa368894b1885c85382fd2380a4dd167f4c05a22fc2682f40:45f6e85b083da91b4e230f262ed33ef4678c81da1a7cfab868c75f06572e943a916f75137ba22c50ac5599b5401144e5b0f512ac008cc58d72218d4cdfbcf59d', 'admin', 'local', 5000, NOW(), NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 4JDULBJ6KEvmzfY.root --database c5woR5nwDo6jsb47shnyUw --execute INSERT INTO users (openId, email, name, passwordHash, role, loginMethod, balance, createdAt, updatedAt, lastSignedIn) \nVALUES ('admin-user-001', 'admin@tienda.com', 'Administrador', '51381a4224551bcaa368894b1885c85382fd2380a4dd167f4c05a22fc2682f40:45f6e85b083da91b4e230f262ed33ef4678c81da1a7cfab868c75f06572e943a916f75137ba22c50ac5599b5401144e5b0f512ac008cc58d72218d4cdfbcf59d', 'admin', 'local', 5000, NOW(), NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 351
+}
