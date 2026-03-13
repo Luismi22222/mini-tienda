@@ -8,6 +8,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
 import { Trash2, Home, ChevronRight } from "lucide-react";
 import PaymentModal from "@/components/PaymentModal";
+import { formatEUR } from "@/lib/currency";
 
 export default function Cart() {
   const [, setLocation] = useLocation();
@@ -156,12 +157,12 @@ export default function Cart() {
 
                         <div className="text-right">
                           <p className="text-sm text-gray-600">
-                            ${parseFloat(item.product?.price || "0").toFixed(2)} c/u
+                            {formatEUR(item.product?.price || "0")} c/u
                           </p>
                           <p className="text-lg font-bold text-orange-600">
-                            ${(
+                            {formatEUR(
                               parseFloat(item.product?.price || "0") * item.quantity
-                            ).toFixed(2)}
+                            )}
                           </p>
                         </div>
 
@@ -190,17 +191,17 @@ export default function Cart() {
                 <div className="space-y-4 mb-6 pb-6 border-b">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal ({cartItems?.length} artículos)</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatEUR(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Impuestos (10%)</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>{formatEUR(tax)}</span>
                   </div>
                 </div>
 
                 <div className="flex justify-between text-xl font-bold mb-6">
                   <span>Total</span>
-                  <span className="text-orange-600">${total.toFixed(2)}</span>
+                  <span className="text-orange-600">{formatEUR(total)}</span>
                 </div>
 
                 <Button
@@ -220,7 +221,7 @@ export default function Cart() {
                 </Button>
 
                 <p className="text-xs text-gray-500 text-center mt-4">
-                  Envío gratis en compras mayores a $50
+                  Envío gratis en compras mayores a 50€
                 </p>
               </Card>
             </div>

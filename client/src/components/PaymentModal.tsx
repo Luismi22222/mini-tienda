@@ -110,7 +110,7 @@ export default function PaymentModal({ total, onClose, onSubmit, isLoading }: Pa
           {/* Total */}
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-gray-600">Monto a pagar</p>
-            <p className="text-3xl font-bold text-blue-600">${total.toFixed(2)}</p>
+            <p className="text-3xl font-bold text-blue-600">€{total.toFixed(2)}</p>
           </div>
 
           {/* Card Number */}

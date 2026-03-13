@@ -16,6 +16,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AdminPanel from "./pages/AdminPanel";
+import GoogleSheetsUsers from "./pages/GoogleSheetsUsers";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/register" component={Register} />
       <Route path="/login" component={Login} />
       <Route path="/admin" component={AdminPanel} />
+      <Route path="/google-sheets-users" component={GoogleSheetsUsers} />
       <Route path="/catalog" component={Catalog} />
       <Route path="/product/:id" component={ProductDetail} />
       <Route path="/create-product" component={CreateProduct} />

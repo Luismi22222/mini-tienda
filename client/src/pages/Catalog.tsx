@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { ShoppingCart, Home, Search, LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { formatEUR } from "@/lib/currency";
 
 export default function Catalog() {
   const [, setLocation] = useLocation();
@@ -241,7 +242,7 @@ export default function Catalog() {
                   {/* Price */}
                   <div className="mb-4">
                     <span className="text-2xl font-bold text-orange-600">
-                      ${parseFloat(product.price).toFixed(2)}
+                      {formatEUR(product.price)}
                     </span>
                   </div>
 

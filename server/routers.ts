@@ -678,6 +678,43 @@ export const appRouter = router({
 
         return await deleteUser(input.userId);
       }),
+
+    /**
+     * Crear Google Sheet con usuarios
+     */
+    createGoogleSheet: protectedProcedure.mutation(async ({ ctx }) => {
+      // Verificar que el usuario es admin
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Solo administradores pueden crear Google Sheets',
+        });
+      }
+
+      // Obtener usuarios
+      const users = await getAllUsers();
+
+      // Crear URL de Google Sheets con datos
+      // Esta es una simulación - en producción usarías Google Sheets API
+      const sheetData = users.map((u) => ({
+        ID: u.id,
+        Email: u.email || '',
+        Nombre: u.name || '',
+        Saldo: u.balance || '0',
+        Rol: u.role || 'user',
+        'Método Login': u.loginMethod || '',
+        'Fecha Registro': new Date(u.createdAt).toLocaleDateString('es-ES'),
+      }));
+
+      // Simular creación de Google Sheet
+      const sheetUrl = `https://docs.google.com/spreadsheets/d/1SimulatedSheetId/edit?usp=sharing`;
+
+      return {
+        sheetUrl,
+        message: 'Google Sheet simulado. En producción, integra con Google Sheets API.',
+        usersCount: users.length,
+      };
+    }),
   }),
 });
 export type AppRouter = typeof appRouter;
